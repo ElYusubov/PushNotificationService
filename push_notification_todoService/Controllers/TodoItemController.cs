@@ -9,6 +9,10 @@ using push_notification_todoService.Models;
 using System.Collections.Generic;
 using Microsoft.Azure.NotificationHubs;
 using Microsoft.Azure.Mobile.Server.Config;
+using Microsoft.Azure.NotificationHubs.Messaging;
+using System.Net.Http;
+using System.Net;
+using Newtonsoft.Json.Linq;
 
 namespace push_notification_todoService.Controllers
 {
@@ -45,19 +49,9 @@ namespace push_notification_todoService.Controllers
         {
             TodoItem current = await InsertAsync(item);
 
-            // Get the settings for the server project.
-            HttpConfiguration config = this.Configuration;
-            MobileAppSettingsDictionary settings =
-                this.Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
-
-            // Get the Notification Hubs credentials for the Mobile App.
-            string notificationHubName = settings.NotificationHubName;
-            string notificationHubConnection = settings
-                .Connections[MobileAppSettingsKeys.NotificationHubConnectionString].ConnectionString;
-
-            // Create a new Notification Hub client.
-            NotificationHubClient hub = NotificationHubClient
-            .CreateClientFromConnectionString(notificationHubConnection, notificationHubName);
+            HttpConfiguration config;
+            NotificationHubClient hub;
+            SetHubClient(out config, out hub);
 
             // Sending the message so that all template registrations that contain "messageParam"
             // will receive the notifications. This includes APNS, GCM, WNS, and MPNS template registrations.
@@ -84,10 +78,32 @@ namespace push_notification_todoService.Controllers
             return CreatedAtRoute("Tables", new { id = current.Id }, current);
         }
 
+        private void SetHubClient(out HttpConfiguration config, out NotificationHubClient hub)
+        {
+            // Get the settings for the server project.
+            config = this.Configuration;
+            MobileAppSettingsDictionary settings =
+            this.Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
+
+            // Get the Notification Hubs credentials for the Mobile App.
+            string notificationHubName = settings.NotificationHubName;
+            string notificationHubConnection = settings
+                .Connections[MobileAppSettingsKeys.NotificationHubConnectionString].ConnectionString;
+
+            // Create a new Notification Hub client.
+            hub = NotificationHubClient
+            .CreateClientFromConnectionString(notificationHubConnection, notificationHubName);
+        }
+
         // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
         public Task DeleteTodoItem(string id)
         {
             return DeleteAsync(id);
         }
+
+
+
+
+     
     }
 }

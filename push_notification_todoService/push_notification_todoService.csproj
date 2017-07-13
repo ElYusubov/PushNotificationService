@@ -170,7 +170,8 @@
   <ItemGroup>
     <Compile Include="App_Start\push_notification_todoInitializer.cs" />
     <Compile Include="App_Start\Startup.MobileApp.cs" />
-    <Compile Include="Controllers\CustomController.cs" />
+    <Compile Include="Controllers\RemoveTagsController.cs" />
+    <Compile Include="Controllers\UpdateTagsController.cs" />
     <Compile Include="Controllers\TodoItemController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DataObjects\TodoItem.cs" />
