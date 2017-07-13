@@ -9,10 +9,6 @@ using push_notification_todoService.Models;
 using System.Collections.Generic;
 using Microsoft.Azure.NotificationHubs;
 using Microsoft.Azure.Mobile.Server.Config;
-using Microsoft.Azure.NotificationHubs.Messaging;
-using System.Net.Http;
-using System.Net;
-using Newtonsoft.Json.Linq;
 
 namespace push_notification_todoService.Controllers
 {
@@ -99,11 +95,6 @@ namespace push_notification_todoService.Controllers
         public Task DeleteTodoItem(string id)
         {
             return DeleteAsync(id);
-        }
-
-
-
-
-     
+        }     
     }
 }

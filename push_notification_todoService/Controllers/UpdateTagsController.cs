@@ -46,9 +46,9 @@ namespace push_notification_todoService.Controllers
         [HttpPost]
         public async Task<HttpResponseMessage> AddTagsToInstallation(string Id)
         {
-            // Note Id is a installationId
+            // Note: Id is a installationId
 
-            // Get the tags to update from the body of the request.
+            // TODO: Get tag Json array from config 
             var message = await this.Request.Content.ReadAsStringAsync();
 
             // Validate the submitted tags.
@@ -105,6 +105,7 @@ namespace push_notification_todoService.Controllers
 
             if (string.IsNullOrEmpty(settings.HostName))
             {
+                //TODO: Get from config file 
                 notificationHubName = "notification-hub-17";
                 notificationHubConnection = 
                     "Endpoint=sb://ns-notification-hub-17.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=7JgMPUZd4coxOv17V0gGQ5Pyd62adkc8Uw5Sa5Kc0XY=";
